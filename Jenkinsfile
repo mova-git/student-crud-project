@@ -50,7 +50,6 @@ pipeline {
         stage('Trivy Scan') {
             steps {
                 bat '"C:/Users/Dell/AppData/Local/Microsoft/WinGet/Packages/AquaSecurity.Trivy_Microsoft.Winget.Source_8wekyb3d8bbwe/trivy.exe" image %IMAGE_NAME%'
-            }
         }
 
         stage('Deploy Application') {
