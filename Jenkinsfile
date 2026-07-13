@@ -76,8 +76,8 @@ pipeline {
         stage('Generate Excel Report') {
             steps {
                 bat '''
-                set PATH=C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312;C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;%PATH%
-                python scripts\\report.py
+                    "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip list
+                    "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" scripts\\report.py
                 '''
             }
         }
