@@ -65,7 +65,14 @@ pipeline {
                 bat "docker ps"
             }
         }
-
+        stage('Check Python') {
+            steps {
+                 bat '''
+                    python --version
+                    python -m pip list
+                '''
+            }
+        }
         stage('Generate Excel Report') {
             steps {
                 bat '''
