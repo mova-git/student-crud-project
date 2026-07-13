@@ -67,9 +67,9 @@ pipeline {
         }
         stage('Check Python') {
             steps {
-                 bat '''
-                    python --version
-                    python -m pip list
+                  bat '''
+                "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" --version
+                "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip list
                 '''
             }
         }
