@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        SCANNER_HOME = tool 'SonarScanner'
+        SCANNER_HOME = tool 'sonar-scanner'
         IMAGE_NAME = "student-crud"
     }
 
@@ -21,12 +21,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube') {
+                withSonarQubeEnv('Sonarqube-scanner') {
                     bat """
-                    %SCANNER_HOME%\\bin\\sonar-scanner.bat ^
+                    "%SCANNER_HOME%\\bin\\sonar-scanner.bat" ^
                     -Dsonar.projectKey=student-crud ^
                     -Dsonar.projectName=StudentCRUD ^
-                    -Dsonar.sources=. ^
+                    -Dsonar.sources=app ^
                     -Dsonar.sourceEncoding=UTF-8
                     """
                 }
@@ -49,85 +49,77 @@ pipeline {
 
         stage('Trivy Scan') {
             steps {
-                bat '"C:/Users/Dell/AppData/Local/Microsoft/WinGet/Packages/AquaSecurity.Trivy_Microsoft.Winget.Source_8wekyb3d8bbwe/trivy.exe" image %IMAGE_NAME%'
+                bat "trivy image %IMAGE_NAME%"
+            }
         }
 
         stage('Deploy Application') {
             steps {
-                bat "docker compose up -d"
+                bat "docker compose down"
+                bat "docker compose up -d --build"
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Verify Containers') {
             steps {
                 bat "docker ps"
             }
         }
+
         stage('Generate Excel Report') {
             steps {
                 bat "python scripts\\report.py"
             }
         }
+
     }
 
     post {
+
         success {
-                       emailext(
-
+            emailext(
                 subject: "SUCCESS : Student CRUD Deployment",
-
                 body: """
+Hello,
 
-                Hello,
+Jenkins Pipeline executed successfully.
 
-                Jenkins Pipeline executed successfully.
+Completed Stages:
+✔ Checkout
+✔ SonarQube Scan
+✔ Quality Gate
+✔ Docker Build
+✔ Trivy Scan
+✔ Deployment
+✔ Excel Report Generation
 
-                Stages Completed
-
-                ✔ Git Checkout
-
-                ✔ SonarQube Scan
-
-                ✔ Docker Build
-
-                ✔ Trivy Scan
-
-                ✔ Docker Deployment
-
-                ✔ Excel Report Generated
-
-                Regards,
-                Jenkins
-
-                """,
-
+Regards,
+Jenkins
+""",
                 to: "mauriya1999@gmail.com",
-
                 attachmentsPattern: "reports/Student_Report.xlsx"
-
             )
         }
 
         failure {
-                        emailext(
-
+            emailext(
                 subject: "FAILED : Student CRUD Deployment",
-
                 body: """
+Hello,
 
-                Jenkins Pipeline Failed.
+Jenkins Pipeline failed.
 
-                Please check the Console Output.
+Please check the Jenkins Console Output.
 
-                """,
-
+Regards,
+Jenkins
+""",
                 to: "mauriya1999@gmail.com"
-
             )
         }
 
         always {
-            echo 'Pipeline execution finished.'
+            echo "Pipeline execution completed."
         }
     }
 }
