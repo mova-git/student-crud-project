@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+
+  app:
+    build: .
+    container_name: student-app
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - mysql
+
+    volumes:
+      - ./app:/var/www/html
+
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: studentdb
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/student.sql:/docker-entrypoint-initdb.d/student.sql
+
+volumes:
+  mysql_data:

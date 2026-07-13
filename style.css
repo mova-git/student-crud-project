@@ -1,0 +1,104 @@
+/* General Page Style */
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container */
+
+.container {
+    width: 70%;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+/* Heading */
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Labels */
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+/* Input Fields */
+
+input[type="text"],
+input[type="number"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+}
+
+table td {
+    padding: 10px;
+    text-align: center;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+/* Links */
+
+a {
+    text-decoration: none;
+}
+
+/* Horizontal Line */
+
+hr {
+    margin: 25px 0;
+}
