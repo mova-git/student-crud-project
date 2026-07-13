@@ -68,7 +68,7 @@ pipeline {
 
         stage('Generate Excel Report') {
             steps {
-                bat "python scripts\\report.py"
+                bat '"C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" scripts\\report.py'
             }
         }
 
