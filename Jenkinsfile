@@ -21,7 +21,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('Sonarqube-scanner') {
+                withSonarQubeEnv('sonarqube') {
                     bat """
                     "%SCANNER_HOME%\\bin\\sonar-scanner.bat" ^
                     -Dsonar.projectKey=student-crud ^
