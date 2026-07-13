@@ -72,11 +72,58 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed successfully.'
+                       emailext(
+
+                subject: "SUCCESS : Student CRUD Deployment",
+
+                body: """
+
+                Hello,
+
+                Jenkins Pipeline executed successfully.
+
+                Stages Completed
+
+                ✔ Git Checkout
+
+                ✔ SonarQube Scan
+
+                ✔ Docker Build
+
+                ✔ Trivy Scan
+
+                ✔ Docker Deployment
+
+                ✔ Excel Report Generated
+
+                Regards,
+                Jenkins
+
+                """,
+
+                to: "mauriya1999@gmail.com",
+
+                attachmentsPattern: "reports/Student_Report.xlsx"
+
+            )
         }
 
         failure {
-            echo 'Pipeline failed.'
+                        emailext(
+
+                subject: "FAILED : Student CRUD Deployment",
+
+                body: """
+
+                Jenkins Pipeline Failed.
+
+                Please check the Console Output.
+
+                """,
+
+                to: "mauriya1999@gmail.com"
+
+            )
         }
 
         always {
