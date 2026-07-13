@@ -63,6 +63,11 @@ pipeline {
                 bat "docker ps"
             }
         }
+        stage('Generate Excel Report') {
+            steps {
+                bat "python scripts\\report.py"
+            }
+        }
     }
 
     post {
