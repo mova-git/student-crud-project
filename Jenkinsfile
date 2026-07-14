@@ -79,6 +79,7 @@ pipeline {
                     "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip list
                     "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip install pandas
                     "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip install mysql-connector-python
+                    "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip install openpyxl
                     "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" scripts\\report.py
                 '''
             }
