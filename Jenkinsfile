@@ -77,7 +77,7 @@ pipeline {
             steps {
                 bat '''
                     "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip list
-                    "C:\Users\Dell\AppData\Local\Programs\Python\Python312\python.exe" -m pip install pandas
+                    "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip install pandas
                     "C:\\Users\\Dell\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" scripts\\report.py
                 '''
             }
