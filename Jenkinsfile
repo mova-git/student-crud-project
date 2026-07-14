@@ -90,6 +90,7 @@ pipeline {
     post {
 
         success {
+            archiveArtifacts artifacts: 'reports/*.xlsx', fingerprint: true
             emailext(
                 subject: "SUCCESS : Student CRUD Deployment",
                 body: """
