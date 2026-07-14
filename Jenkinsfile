@@ -84,6 +84,11 @@ pipeline {
                 '''
             }
         }
+        stage('Verify Report') {
+            steps {
+                    bat 'dir reports'
+            }
+        }
         stage('Send Email') {
     steps {
         emailext(
