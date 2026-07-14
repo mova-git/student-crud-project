@@ -116,46 +116,57 @@ Jenkins
 }
 
 post {
-    success {
-        archiveArtifacts artifacts: 'reports/*.xlsx', fingerprint: true
 
+    success {
         script {
+
+            // Archive the generated Excel report
+            archiveArtifacts artifacts: 'reports/*.xlsx', fingerprint: true
+
             try {
+
                 emailext(
                     to: 'mauriya1999@gmail.com',
                     subject: "SUCCESS: Student CRUD Deployment - Build #${BUILD_NUMBER}",
+
                     body: """
 Hello,
 
-The Jenkins pipeline completed successfully.
+The Jenkins Pipeline completed successfully.
 
 Completed Stages:
-✔ Checkout
-✔ SonarQube Analysis
-✔ Quality Gate
-✔ Docker Build
-✔ Trivy Scan
-✔ Deploy Application
-✔ Excel Report Generation
+- Checkout Code
+- SonarQube Analysis
+- Quality Gate
+- Docker Build
+- Trivy Image Scan
+- Docker Deployment
+- Excel Report Generation
 
-Job Name : ${JOB_NAME}
-Build Number : ${BUILD_NUMBER}
-Build URL : ${BUILD_URL}
+Job Name    : ${JOB_NAME}
+Build Number: ${BUILD_NUMBER}
+Build URL   : ${BUILD_URL}
+
+The Student Report is attached.
 
 Regards,
 Jenkins
 """,
+
                     attachmentsPattern: 'reports/*.xlsx'
                 )
 
-                echo "✅ Email sent successfully."
+                echo "======================================="
+                echo "Email sent successfully."
+                echo "======================================="
 
             } catch (Exception e) {
 
-                echo "❌ Failed to send email."
-                echo "Error: ${e.getMessage()}"
+                echo "======================================="
+                echo "Failed to send email."
+                echo "Reason: ${e.getMessage()}"
+                echo "======================================="
 
-                // Print full stack trace in Jenkins console
                 e.printStackTrace()
             }
         }
@@ -163,20 +174,23 @@ Jenkins
 
     failure {
         script {
+
             try {
+
                 emailext(
                     to: 'mauriya1999@gmail.com',
                     subject: "FAILED: Student CRUD Deployment - Build #${BUILD_NUMBER}",
+
                     body: """
 Hello,
 
-The Jenkins Pipeline has FAILED.
+The Jenkins Pipeline FAILED.
 
-Job Name : ${JOB_NAME}
-Build Number : ${BUILD_NUMBER}
-Build URL : ${BUILD_URL}
+Job Name    : ${JOB_NAME}
+Build Number: ${BUILD_NUMBER}
+Build URL   : ${BUILD_URL}
 
-Please check the Jenkins console log.
+Please check the Jenkins Console Output.
 
 Regards,
 Jenkins
@@ -188,9 +202,14 @@ Jenkins
             } catch (Exception e) {
 
                 echo "Failed to send failure email."
-                echo "Error: ${e.getMessage()}"
+                echo "Reason: ${e.getMessage()}"
+
                 e.printStackTrace()
             }
         }
+    }
+
+    always {
+        echo "Pipeline execution finished."
     }
 }
