@@ -113,55 +113,84 @@ Jenkins
     }
 }
 
-    }
+}
 
-    post {
+post {
+    success {
+        archiveArtifacts artifacts: 'reports/*.xlsx', fingerprint: true
 
-        success {
-            archiveArtifacts artifacts: 'reports/*.xlsx', fingerprint: true
-            emailext(
-                subject: "SUCCESS : Student CRUD Deployment",
-                body: """
+        script {
+            try {
+                emailext(
+                    to: 'mauriya1999@gmail.com',
+                    subject: "SUCCESS: Student CRUD Deployment - Build #${BUILD_NUMBER}",
+                    body: """
 Hello,
 
-Jenkins Pipeline executed successfully.
+The Jenkins pipeline completed successfully.
 
 Completed Stages:
 ✔ Checkout
-✔ SonarQube Scan
+✔ SonarQube Analysis
 ✔ Quality Gate
 ✔ Docker Build
 ✔ Trivy Scan
-✔ Deployment
+✔ Deploy Application
 ✔ Excel Report Generation
 
+Job Name : ${JOB_NAME}
+Build Number : ${BUILD_NUMBER}
+Build URL : ${BUILD_URL}
+
 Regards,
 Jenkins
 """,
-                to: "mauriya1999@gmail.com",
-                attachmentsPattern: "reports/Student_Report.xlsx"
-            )
-        }
+                    attachmentsPattern: 'reports/*.xlsx'
+                )
 
-        failure {
-            emailext(
-                subject: "FAILED : Student CRUD Deployment",
-                body: """
+                echo "✅ Email sent successfully."
+
+            } catch (Exception e) {
+
+                echo "❌ Failed to send email."
+                echo "Error: ${e.getMessage()}"
+
+                // Print full stack trace in Jenkins console
+                e.printStackTrace()
+            }
+        }
+    }
+
+    failure {
+        script {
+            try {
+                emailext(
+                    to: 'mauriya1999@gmail.com',
+                    subject: "FAILED: Student CRUD Deployment - Build #${BUILD_NUMBER}",
+                    body: """
 Hello,
 
-Jenkins Pipeline failed.
+The Jenkins Pipeline has FAILED.
 
-Please check the Jenkins Console Output.
+Job Name : ${JOB_NAME}
+Build Number : ${BUILD_NUMBER}
+Build URL : ${BUILD_URL}
+
+Please check the Jenkins console log.
 
 Regards,
 Jenkins
-""",
-                to: "mauriya1999@gmail.com"
-            )
-        }
+"""
+                )
 
-        always {
-            echo "Pipeline execution completed."
+                echo "Failure email sent successfully."
+
+            } catch (Exception e) {
+
+                echo "Failed to send failure email."
+                echo "Error: ${e.getMessage()}"
+                e.printStackTrace()
+            }
         }
     }
 }
