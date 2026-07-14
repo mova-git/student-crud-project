@@ -84,6 +84,29 @@ pipeline {
                 '''
             }
         }
+        stage('Send Email') {
+    steps {
+        emailext(
+            subject: "Student CRUD Pipeline - Build #${BUILD_NUMBER}",
+            body: """
+Hello,
+
+The Jenkins pipeline completed successfully.
+
+Please find the attached Student Report.
+
+Job Name: ${JOB_NAME}
+Build Number: ${BUILD_NUMBER}
+Build URL: ${BUILD_URL}
+
+Regards,
+Jenkins
+""",
+            to: "mauriya1999@gmail.com",
+            attachmentsPattern: "reports/*.xlsx"
+        )
+    }
+}
 
     }
 
